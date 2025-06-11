@@ -256,20 +256,24 @@ const VivintCalculator = () => {
           <div className="form-row">
             <label>House size</label>
             <div className="form-value">{getHomeSizeLabel(formData.homeSize)}</div>
-            <div className="slider-container">
+            <div className="slider-container" onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const percentage = (x / rect.width) * 100;
+              
+              if (percentage < 25) {
+                handleInputChange('homeSize', '<1000');
+              } else if (percentage < 50) {
+                handleInputChange('homeSize', '1000-2000');
+              } else if (percentage < 75) {
+                handleInputChange('homeSize', '2000-3000');
+              } else {
+                handleInputChange('homeSize', '>3000');
+              }
+            }}>
               <div className="slider-track"></div>
               <div className="slider-fill" style={{width: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
               <div className="slider-thumb" style={{left: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
-              <select
-                value={formData.homeSize}
-                onChange={(e) => handleInputChange('homeSize', e.target.value)}
-                className="invisible-select"
-              >
-                <option value="<1000">Less than 1,000 sq. ft.</option>
-                <option value="1000-2000">1,000–2,000 sq. ft.</option>
-                <option value="2000-3000">2,000–3,000 sq. ft.</option>
-                <option value=">3000">More than 3,000 sq. ft.</option>
-              </select>
             </div>
           </div>
 
