@@ -112,6 +112,19 @@ const VivintCalculator = () => {
   }, [selectedProducts, formData.monthlyBill]);
 
   const handleInputChange = (field, value) => {
+    // Input validation for numeric fields
+    if (field === 'monthlyBill' || field === 'electricityRate') {
+      // Allow empty string, numbers, and decimal points
+      if (value === '' || /^\d*\.?\d*$/.test(value)) {
+        setFormData(prev => ({
+          ...prev,
+          [field]: value
+        }));
+      }
+      // Don't update state if invalid characters are entered
+      return;
+    }
+    
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -119,6 +132,18 @@ const VivintCalculator = () => {
   };
 
   const handleContactChange = (field, value) => {
+    // Phone number validation
+    if (field === 'phone') {
+      // Allow empty string, numbers, spaces, hyphens, and parentheses
+      if (value === '' || /^[\d\s\-\(\)]*$/.test(value)) {
+        setContactData(prev => ({
+          ...prev,
+          [field]: value
+        }));
+      }
+      return;
+    }
+    
     setContactData(prev => ({
       ...prev,
       [field]: value
