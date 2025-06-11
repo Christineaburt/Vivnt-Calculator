@@ -195,23 +195,40 @@ const VivintCalculator = () => {
         {/* Vivint Logo */}
         <div className="vivint-logo">
           <svg width="186" height="41" viewBox="0 0 186 41" fill="none">
-            <rect width="186" height="41" fill="white" opacity="0.1"/>
-            <text x="93" y="25" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">VIVINT</text>
+            {/* V */}
+            <path d="M10 10L18 31L26 10" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            {/* I */}
+            <line x1="35" y1="10" x2="35" y2="31" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            {/* V */}
+            <path d="M44 10L52 31L60 10" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            {/* I */}
+            <line x1="69" y1="10" x2="69" y2="31" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            {/* N */}
+            <line x1="78" y1="31" x2="78" y2="10" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="78" y1="10" x2="94" y2="31" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="94" y1="31" x2="94" y2="10" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            {/* T */}
+            <line x1="103" y1="10" x2="119" y2="10" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="111" y1="10" x2="111" y2="31" stroke="white" strokeWidth="3" strokeLinecap="round"/>
           </svg>
         </div>
         
         {/* Smart Home Icons */}
         <div className="smart-home-icons">
           <svg width="145" height="163" viewBox="0 0 145 163" fill="none">
-            {/* House outline */}
-            <path d="M20 80L72.5 35L125 80V140C125 145.523 120.523 150 115 150H30C24.4772 150 20 145.523 20 140V80Z" stroke="#E2B95D" strokeWidth="9" fill="none"/>
-            {/* Roof */}
-            <path d="M15 80L72.5 30L130 80" stroke="#E2B95D" strokeWidth="9" fill="none"/>
+            {/* Main house structure */}
+            <path d="M72.5 20L20 65V150H125V65L72.5 20Z" stroke="#E2B95D" strokeWidth="9" fill="none" strokeLinejoin="round"/>
+            {/* Roof peak */}
+            <path d="M10 65L72.5 10L135 65" stroke="#E2B95D" strokeWidth="9" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            {/* Smart device indicators */}
+            <circle cx="40" cy="90" r="8" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            <circle cx="105" cy="90" r="8" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            <circle cx="72" cy="110" r="8" stroke="#E2B95D" strokeWidth="6" fill="none"/>
             {/* Door */}
-            <rect x="60" y="120" width="25" height="30" stroke="#E2B95D" strokeWidth="6" fill="none"/>
-            {/* Windows */}
-            <rect x="35" y="100" width="15" height="15" stroke="#E2B95D" strokeWidth="6" fill="none"/>
-            <rect x="95" y="100" width="15" height="15" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            <rect x="60" y="125" width="25" height="25" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            {/* Signal waves */}
+            <path d="M72 70C80 70 87 77 87 85" stroke="#E2B95D" strokeWidth="4" fill="none" strokeLinecap="round"/>
+            <path d="M72 70C85 70 95 80 95 93" stroke="#E2B95D" strokeWidth="4" fill="none" strokeLinecap="round"/>
           </svg>
         </div>
         
