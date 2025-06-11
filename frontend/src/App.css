@@ -55,7 +55,7 @@ body {
   position: absolute;
   width: 154px;
   height: 173px;
-  right: 40px;
+  left: calc(50% - 77px);
   top: 280px;
 }
 
