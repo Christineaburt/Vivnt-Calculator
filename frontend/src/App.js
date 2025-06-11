@@ -31,6 +31,9 @@ const VivintCalculator = () => {
     percentageSaved: 0
   });
 
+  // Validation errors
+  const [errors, setErrors] = useState({});
+
   // Smart products data
   const smartProducts = [
     {
@@ -111,6 +114,45 @@ const VivintCalculator = () => {
     });
   }, [selectedProducts, formData.monthlyBill]);
 
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    
+    switch (field) {
+      case 'monthlyBill':
+        if (value && (isNaN(value) || parseFloat(value) <= 0)) {
+          newErrors[field] = 'Please enter a valid dollar amount';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      case 'electricityRate':
+        if (value && (isNaN(value) || parseFloat(value) <= 0)) {
+          newErrors[field] = 'Please enter a valid rate';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      case 'email':
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          newErrors[field] = 'Please enter a valid email address';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      case 'phone':
+        if (value && !/^[\d\s\-\(\)]{10,}$/.test(value.replace(/\D/g, ''))) {
+          newErrors[field] = 'Please enter a valid phone number';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      default:
+        break;
+    }
+    
+    setErrors(newErrors);
+  };
+
   const handleInputChange = (field, value) => {
     // Input validation for numeric fields
     if (field === 'monthlyBill' || field === 'electricityRate') {
@@ -120,6 +162,7 @@ const VivintCalculator = () => {
           ...prev,
           [field]: value
         }));
+        validateField(field, value);
       }
       // Don't update state if invalid characters are entered
       return;
@@ -129,6 +172,10 @@ const VivintCalculator = () => {
       ...prev,
       [field]: value
     }));
+    
+    if (field === 'zipCode' && value && !/^\d{5}(-\d{4})?$/.test(value)) {
+      validateField('zipCode', value);
+    }
   };
 
   const handleContactChange = (field, value) => {
@@ -140,6 +187,7 @@ const VivintCalculator = () => {
           ...prev,
           [field]: value
         }));
+        validateField(field, value);
       }
       return;
     }
@@ -148,6 +196,10 @@ const VivintCalculator = () => {
       ...prev,
       [field]: value
     }));
+    
+    if (field === 'email') {
+      validateField(field, value);
+    }
   };
 
   const handleProductToggle = (productId) => {
@@ -179,6 +231,7 @@ const VivintCalculator = () => {
       phone: '',
       bestTime: 'Morning'
     });
+    setErrors({});
   };
 
   const getHomeSizeLabel = (value) => {
@@ -199,6 +252,38 @@ const VivintCalculator = () => {
       case '>3000': return 100;
       default: return 33;
     }
+  };
+
+  const handleContactSubmit = () => {
+    // Validate required fields
+    const requiredFields = ['name', 'email', 'phone'];
+    const newErrors = {};
+    
+    requiredFields.forEach(field => {
+      if (!contactData[field]) {
+        newErrors[field] = 'This field is required';
+      }
+    });
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    
+    // Send data via postMessage for parent page integration
+    if (window.parent !== window) {
+      window.parent.postMessage({
+        type: 'VIVINT_CALCULATOR_SUBMIT',
+        data: {
+          formData,
+          selectedProducts,
+          results,
+          contactData
+        }
+      }, '*');
+    }
+    
+    alert('Thank you! Your information has been submitted.');
   };
 
   // Progress indicator component
@@ -266,6 +351,10 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container">
         <button onClick={resetCalculator} className="reset-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="3,6 5,6 21,6"></polyline>
+            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+          </svg>
           reset&nbsp;calculator
         </button>
         
@@ -331,9 +420,10 @@ const VivintCalculator = () => {
               value={formData.monthlyBill}
               onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
               placeholder="e.g., $120"
-              className="form-input"
+              className={`form-input ${errors.monthlyBill ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.monthlyBill && <span className="error-text">{errors.monthlyBill}</span>}
             <p className="input-help">If you're not sure, we'll use the national average.</p>
           </div>
 
@@ -344,9 +434,10 @@ const VivintCalculator = () => {
               value={formData.electricityRate}
               onChange={(e) => handleInputChange('electricityRate', e.target.value)}
               placeholder="e.g., $0.19 per kWh"
-              className="form-input"
+              className={`form-input ${errors.electricityRate ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.electricityRate && <span className="error-text">{errors.electricityRate}</span>}
             <p className="input-help">National average: $0.19 per kWh (as of March 2025)</p>
           </div>
 
@@ -357,9 +448,10 @@ const VivintCalculator = () => {
               value={formData.zipCode}
               onChange={(e) => handleInputChange('zipCode', e.target.value)}
               placeholder="e.g., 84043"
-              className="form-input"
+              className={`form-input ${errors.zipCode ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.zipCode && <span className="error-text">{errors.zipCode}</span>}
           </div>
         </div>
 
@@ -380,6 +472,10 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container products-container">
         <button onClick={resetCalculator} className="reset-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="3,6 5,6 21,6"></polyline>
+            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+          </svg>
           reset&nbsp;calculator
         </button>
         
@@ -400,7 +496,9 @@ const VivintCalculator = () => {
               </div>
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
-                <p className="product-savings">{product.description}</p>
+                <p className="product-savings">
+                  Save up to <span className="savings-amount">${product.annualSavings}/year</span>
+                </p>
                 <div 
                   className={`product-toggle ${selectedProducts[product.id] ? 'active' : ''}`}
                   onClick={() => handleProductToggle(product.id)}
@@ -436,6 +534,10 @@ const VivintCalculator = () => {
       <div className="calculator-page">
         <div className="calculator-container">
           <button onClick={resetCalculator} className="reset-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="3,6 5,6 21,6"></polyline>
+              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+            </svg>
             reset&nbsp;calculator
           </button>
           
@@ -464,28 +566,30 @@ const VivintCalculator = () => {
               
               <div className="bill-item">
                 <p className="bill-label">Your bill with Vivint</p>
-                <div className="bill-bar savings" style={{width: `${(newBill / monthlyBill) * 100}%`}}>
+                <div className="bill-bar savings" style={{width: `${Math.max((newBill / monthlyBill) * 100, 20)}%`}}>
                   <span className="bill-amount">${Math.round(newBill)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="savings-breakdown">
-            <h3 className="breakdown-title">Savings breakdown</h3>
-            
-            {selectedProductsList.map((product) => (
-              <div key={product.id} className="breakdown-item">
-                <div className="breakdown-info">
-                  <span className="breakdown-name">{product.name}</span>
-                  <span className="breakdown-amount">${Math.round(product.annualSavings / 12)}</span>
+          {selectedProductsList.length > 0 && (
+            <div className="savings-breakdown">
+              <h3 className="breakdown-title">Savings breakdown</h3>
+              
+              {selectedProductsList.map((product) => (
+                <div key={product.id} className="breakdown-item">
+                  <div className="breakdown-info">
+                    <span className="breakdown-name">{product.name}</span>
+                    <span className="breakdown-amount">${Math.round(product.annualSavings / 12)}</span>
+                  </div>
+                  <div className="breakdown-bar">
+                    <div className="breakdown-fill" style={{width: `${(product.annualSavings / 200) * 100}%`}}></div>
+                  </div>
                 </div>
-                <div className="breakdown-bar">
-                  <div className="breakdown-fill" style={{width: `${(product.annualSavings / 200) * 100}%`}}></div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <button onClick={nextStep} className="quote-btn">
             <span>Get a quote</span>
@@ -505,6 +609,10 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container">
         <button onClick={resetCalculator} className="reset-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="3,6 5,6 21,6"></polyline>
+            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+          </svg>
           reset&nbsp;calculator
         </button>
         
@@ -525,9 +633,10 @@ const VivintCalculator = () => {
               value={contactData.name}
               onChange={(e) => handleContactChange('name', e.target.value)}
               placeholder="John"
-              className="form-input"
+              className={`form-input ${errors.name ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.name && <span className="error-text">{errors.name}</span>}
           </div>
 
           <div className="input-group">
@@ -537,9 +646,10 @@ const VivintCalculator = () => {
               value={contactData.email}
               onChange={(e) => handleContactChange('email', e.target.value)}
               placeholder="Johns@email.com"
-              className="form-input"
+              className={`form-input ${errors.email ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
 
           <div className="input-group">
@@ -549,9 +659,10 @@ const VivintCalculator = () => {
               value={contactData.phone}
               onChange={(e) => handleContactChange('phone', e.target.value)}
               placeholder="900 999 999"
-              className="form-input"
+              className={`form-input ${errors.phone ? 'error' : ''}`}
               autoComplete="off"
             />
+            {errors.phone && <span className="error-text">{errors.phone}</span>}
           </div>
 
           <div className="input-group">
@@ -568,7 +679,7 @@ const VivintCalculator = () => {
           </div>
         </div>
 
-        <button onClick={() => alert('Quote request sent!')} className="send-btn">
+        <button onClick={handleContactSubmit} className="send-btn">
           <span>Send</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
