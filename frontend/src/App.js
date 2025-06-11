@@ -313,6 +313,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
               placeholder="e.g., $120"
               className="form-input"
+              autoComplete="off"
             />
             <p className="input-help">If you're not sure, we'll use the national average.</p>
           </div>
@@ -325,6 +326,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleInputChange('electricityRate', e.target.value)}
               placeholder="e.g., $0.19 per kWh"
               className="form-input"
+              autoComplete="off"
             />
             <p className="input-help">National average: $0.19 per kWh (as of March 2025)</p>
           </div>
@@ -337,6 +339,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleInputChange('zipCode', e.target.value)}
               placeholder="e.g., 84043"
               className="form-input"
+              autoComplete="off"
             />
           </div>
         </div>
