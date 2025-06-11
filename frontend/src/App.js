@@ -507,6 +507,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleContactChange('name', e.target.value)}
               placeholder="John"
               className="form-input"
+              autoComplete="off"
             />
           </div>
 
@@ -518,6 +519,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleContactChange('email', e.target.value)}
               placeholder="Johns@email.com"
               className="form-input"
+              autoComplete="off"
             />
           </div>
 
@@ -529,6 +531,7 @@ const VivintCalculator = () => {
               onChange={(e) => handleContactChange('phone', e.target.value)}
               placeholder="900 999 999"
               className="form-input"
+              autoComplete="off"
             />
           </div>
 
