@@ -38,28 +38,25 @@ body {
   text-align: center;
   color: white;
   padding: 20px;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.intro-icons {
+.vivint-logo {
   position: absolute;
-  top: 302px;
-  right: 50px;
-  width: 144px;
+  width: 186px;
+  height: 41px;
+  left: calc(50% - 186px/2);
+  top: 190px;
+}
+
+.smart-home-icons {
+  position: absolute;
+  width: 145px;
   height: 163px;
-}
-
-.home-icon-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.icon-line {
-  width: 60px;
-  height: 4px;
-  background: white;
-  border-radius: 2px;
-  margin: 0 auto;
+  right: 50px;
+  top: 302px;
 }
 
 .intro-title {
@@ -127,17 +124,19 @@ body {
   background: #F8F8F8;
   border-radius: 33px;
   min-height: calc(100vh - 94px);
+  padding-bottom: 100px; /* Add padding to prevent overlap */
 }
 
 .products-container {
   min-height: 1066px;
+  padding-bottom: 120px; /* Extra padding for products page */
 }
 
 .reset-link {
   position: absolute;
   right: 44px;
   top: 56px;
-  width: 78px;
+  width: auto;
   height: 13px;
   font-weight: 500;
   font-size: 11px;
@@ -147,6 +146,7 @@ body {
   border: none;
   cursor: pointer;
   text-decoration: underline;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .page-header {
@@ -170,7 +170,7 @@ body {
 
 /* Form Styles */
 .form-section {
-  padding: 40px 29px;
+  padding: 40px 29px 60px; /* Add bottom padding */
 }
 
 .form-row {
@@ -229,6 +229,7 @@ body {
   border-radius: 50%;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.11);
   transition: left 0.2s ease;
+  transform: translateX(-50%); /* Center the thumb */
 }
 
 .range-input {
@@ -238,6 +239,17 @@ body {
   top: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+.invisible-select {
+  position: absolute;
+  width: 100%;
+  height: 19px;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
 }
 
 .input-group {
@@ -252,6 +264,7 @@ body {
   line-height: 20px;
   color: #5F7775;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .optional {
@@ -295,7 +308,7 @@ body {
 
 /* Products Page Styles */
 .products-list {
-  padding: 40px 29px;
+  padding: 40px 29px 60px; /* Add bottom padding */
   display: flex;
   flex-direction: column;
   gap: 17px;
@@ -471,7 +484,7 @@ body {
 
 /* Savings Breakdown */
 .savings-breakdown {
-  padding: 0 29px 40px;
+  padding: 0 29px 60px; /* Add bottom padding */
 }
 
 .breakdown-title {
@@ -534,7 +547,7 @@ body {
 }
 
 .contact-form {
-  padding: 0 29px 40px;
+  padding: 0 29px 60px; /* Add bottom padding */
 }
 
 /* Button Styles */
@@ -552,8 +565,10 @@ body {
   font-size: 20px;
   color: #000000;
   cursor: pointer;
-  margin: 0 auto;
+  margin: 20px auto 30px; /* Add margin to prevent overlap */
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 10;
 }
 
 .quote-btn {
@@ -572,11 +587,12 @@ body {
 /* Progress Indicator */
 .progress-container {
   position: absolute;
-  bottom: 45px;
+  bottom: 30px; /* Increased from 45px to prevent overlap */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
+  z-index: 5;
 }
 
 .progress-dot {

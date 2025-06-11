@@ -7,10 +7,10 @@ const VivintCalculator = () => {
   // Form state
   const [formData, setFormData] = useState({
     zipCode: '',
-    homeSize: '',
+    homeSize: '1000-2000',
     peopleCount: 5,
     monthlyBill: '',
-    electricityRate: 0.19
+    electricityRate: '0.19'
   });
 
   // Smart products state
@@ -142,10 +142,10 @@ const VivintCalculator = () => {
     setCurrentStep(0);
     setFormData({
       zipCode: '',
-      homeSize: '',
+      homeSize: '1000-2000',
       peopleCount: 5,
       monthlyBill: '',
-      electricityRate: 0.19
+      electricityRate: '0.19'
     });
     setSelectedProducts({});
     setContactData({
@@ -154,6 +154,26 @@ const VivintCalculator = () => {
       phone: '',
       bestTime: 'Morning'
     });
+  };
+
+  const getHomeSizeLabel = (value) => {
+    switch(value) {
+      case '<1000': return 'Less than 1,000 sq. ft.';
+      case '1000-2000': return '1,000–2,000 sq. ft.';
+      case '2000-3000': return '2,000–3,000 sq. ft.';
+      case '>3000': return 'More than 3,000 sq. ft.';
+      default: return '1,000–2,000 sq. ft.';
+    }
+  };
+
+  const getHomeSizePercentage = (value) => {
+    switch(value) {
+      case '<1000': return 15;
+      case '1000-2000': return 35;
+      case '2000-3000': return 65;
+      case '>3000': return 85;
+      default: return 35;
+    }
   };
 
   // Progress indicator component
@@ -172,13 +192,27 @@ const VivintCalculator = () => {
   const IntroPage = () => (
     <div className="intro-page">
       <div className="intro-content">
-        <div className="intro-icons">
-          {/* Smart home icons representation */}
-          <div className="home-icon-group">
-            <div className="icon-line"></div>
-            <div className="icon-line"></div>
-            <div className="icon-line"></div>
-          </div>
+        {/* Vivint Logo */}
+        <div className="vivint-logo">
+          <svg width="186" height="41" viewBox="0 0 186 41" fill="none">
+            <rect width="186" height="41" fill="white" opacity="0.1"/>
+            <text x="93" y="25" textAnchor="middle" fill="white" fontSize="20" fontWeight="bold">VIVINT</text>
+          </svg>
+        </div>
+        
+        {/* Smart Home Icons */}
+        <div className="smart-home-icons">
+          <svg width="145" height="163" viewBox="0 0 145 163" fill="none">
+            {/* House outline */}
+            <path d="M20 80L72.5 35L125 80V140C125 145.523 120.523 150 115 150H30C24.4772 150 20 145.523 20 140V80Z" stroke="#E2B95D" strokeWidth="9" fill="none"/>
+            {/* Roof */}
+            <path d="M15 80L72.5 30L130 80" stroke="#E2B95D" strokeWidth="9" fill="none"/>
+            {/* Door */}
+            <rect x="60" y="120" width="25" height="30" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            {/* Windows */}
+            <rect x="35" y="100" width="15" height="15" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+            <rect x="95" y="100" width="15" height="15" stroke="#E2B95D" strokeWidth="6" fill="none"/>
+          </svg>
         </div>
         
         <h1 className="intro-title">
@@ -204,7 +238,7 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container">
         <button onClick={resetCalculator} className="reset-link">
-          reset calculator
+          reset&nbsp;calculator
         </button>
         
         <div className="page-header">
@@ -218,11 +252,21 @@ const VivintCalculator = () => {
         <div className="form-section">
           <div className="form-row">
             <label>House size</label>
-            <div className="form-value">{formData.homeSize || '1,000–2,000 sq. ft.'}</div>
+            <div className="form-value">{getHomeSizeLabel(formData.homeSize)}</div>
             <div className="slider-container">
               <div className="slider-track"></div>
-              <div className="slider-fill" style={{width: '33%'}}></div>
-              <div className="slider-thumb" style={{left: '30%'}}></div>
+              <div className="slider-fill" style={{width: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
+              <div className="slider-thumb" style={{left: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
+              <select
+                value={formData.homeSize}
+                onChange={(e) => handleInputChange('homeSize', e.target.value)}
+                className="invisible-select"
+              >
+                <option value="<1000">Less than 1,000 sq. ft.</option>
+                <option value="1000-2000">1,000–2,000 sq. ft.</option>
+                <option value="2000-3000">2,000–3,000 sq. ft.</option>
+                <option value=">3000">More than 3,000 sq. ft.</option>
+              </select>
             </div>
           </div>
 
@@ -233,15 +277,15 @@ const VivintCalculator = () => {
               <div className="slider-track"></div>
               <div className="slider-fill" style={{width: `${(formData.peopleCount - 1) * 11}%`}}></div>
               <div className="slider-thumb" style={{left: `${(formData.peopleCount - 1) * 11}%`}}></div>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value={formData.peopleCount}
+                onChange={(e) => handleInputChange('peopleCount', parseInt(e.target.value))}
+                className="range-input"
+              />
             </div>
-            <input
-              type="range"
-              min="1"
-              max="10"
-              value={formData.peopleCount}
-              onChange={(e) => handleInputChange('peopleCount', parseInt(e.target.value))}
-              className="range-input"
-            />
           </div>
 
           <div className="input-group">
@@ -287,7 +331,7 @@ const VivintCalculator = () => {
           </svg>
         </button>
 
-        <ProgressIndicator step={1} />
+        <ProgressIndicator step={0} />
       </div>
     </div>
   );
@@ -297,7 +341,7 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container products-container">
         <button onClick={resetCalculator} className="reset-link">
-          reset calculator
+          reset&nbsp;calculator
         </button>
         
         <div className="page-header">
@@ -336,7 +380,7 @@ const VivintCalculator = () => {
           </svg>
         </button>
 
-        <ProgressIndicator step={2} />
+        <ProgressIndicator step={1} />
       </div>
     </div>
   );
@@ -353,7 +397,7 @@ const VivintCalculator = () => {
       <div className="calculator-page">
         <div className="calculator-container">
           <button onClick={resetCalculator} className="reset-link">
-            reset calculator
+            reset&nbsp;calculator
           </button>
           
           <div className="page-header">
@@ -411,7 +455,7 @@ const VivintCalculator = () => {
             </svg>
           </button>
 
-          <ProgressIndicator step={3} />
+          <ProgressIndicator step={2} />
         </div>
       </div>
     );
@@ -422,7 +466,7 @@ const VivintCalculator = () => {
     <div className="calculator-page">
       <div className="calculator-container">
         <button onClick={resetCalculator} className="reset-link">
-          reset calculator
+          reset&nbsp;calculator
         </button>
         
         <div className="page-header">
@@ -489,7 +533,7 @@ const VivintCalculator = () => {
           </svg>
         </button>
 
-        <ProgressIndicator step={4} />
+        <ProgressIndicator step={3} />
       </div>
     </div>
   );
