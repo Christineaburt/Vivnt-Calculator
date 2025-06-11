@@ -193,11 +193,11 @@ const VivintCalculator = () => {
 
   const getHomeSizePercentage = (value) => {
     switch(value) {
-      case '<1000': return 15;
-      case '1000-2000': return 35;
-      case '2000-3000': return 65;
-      case '>3000': return 85;
-      default: return 35;
+      case '<1000': return 0;
+      case '1000-2000': return 33;
+      case '2000-3000': return 66;
+      case '>3000': return 100;
+      default: return 33;
     }
   };
 
