@@ -281,24 +281,28 @@ const VivintCalculator = () => {
           <div className="form-row">
             <label>House size</label>
             <div className="form-value">{getHomeSizeLabel(formData.homeSize)}</div>
-            <div className="slider-container" onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const percentage = (x / rect.width) * 100;
-              
-              if (percentage < 25) {
-                handleInputChange('homeSize', '<1000');
-              } else if (percentage < 50) {
-                handleInputChange('homeSize', '1000-2000');
-              } else if (percentage < 75) {
-                handleInputChange('homeSize', '2000-3000');
-              } else {
-                handleInputChange('homeSize', '>3000');
-              }
-            }}>
+            <div className="slider-container">
               <div className="slider-track"></div>
               <div className="slider-fill" style={{width: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
               <div className="slider-thumb" style={{left: `${getHomeSizePercentage(formData.homeSize)}%`}}></div>
+              <input
+                type="range"
+                min="1"
+                max="4"
+                value={
+                  formData.homeSize === '<1000' ? 1 :
+                  formData.homeSize === '1000-2000' ? 2 :
+                  formData.homeSize === '2000-3000' ? 3 : 4
+                }
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  const newSize = val === 1 ? '<1000' : 
+                               val === 2 ? '1000-2000' :
+                               val === 3 ? '2000-3000' : '>3000';
+                  handleInputChange('homeSize', newSize);
+                }}
+                className="range-input house-size-slider"
+              />
             </div>
           </div>
 
