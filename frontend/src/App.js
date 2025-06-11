@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const EnergyCalculator = () => {
+const VivintCalculator = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  
   // Form state
   const [formData, setFormData] = useState({
     zipCode: '',
     homeSize: '',
-    peopleCount: 2,
+    peopleCount: 5,
     monthlyBill: '',
     electricityRate: 0.19
   });
 
   // Smart products state
   const [selectedProducts, setSelectedProducts] = useState({});
+
+  // Contact form state
+  const [contactData, setContactData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    bestTime: 'Morning'
+  });
 
   // Results state
   const [results, setResults] = useState({
@@ -21,71 +31,63 @@ const EnergyCalculator = () => {
     percentageSaved: 0
   });
 
-  // Smart products data with savings
+  // Smart products data
   const smartProducts = [
     {
       id: 'thermostat',
       name: 'Smart Thermostat',
       description: 'Save up to $180/year',
       annualSavings: 180,
-      icon: 'https://images.pexels.com/photos/14401717/pexels-photo-14401717.jpeg',
-      tip: 'Use smart scheduling for bigger savings'
+      icon: 'https://images.pexels.com/photos/14401717/pexels-photo-14401717.jpeg'
     },
     {
       id: 'lighting',
       name: 'Smart Lighting',
       description: 'Save up to $60/year',
       annualSavings: 60,
-      icon: 'https://images.unsplash.com/photo-1619506147448-b56ba8ee11d7',
-      tip: 'Automate lights to turn off when rooms are unoccupied'
+      icon: 'https://images.unsplash.com/photo-1619506147448-b56ba8ee11d7'
     },
     {
       id: 'plugs',
       name: 'Smart Plugs',
       description: 'Save up to $40/year',
       annualSavings: 40,
-      icon: 'https://images.unsplash.com/photo-1586254116648-d33e0fada133',
-      tip: 'Pair with energy-heavy appliances to cut idle power use'
+      icon: 'https://images.unsplash.com/photo-1586254116648-d33e0fada133'
     },
     {
       id: 'doorlock',
       name: 'Smart Door Lock',
       description: 'Save up to $10/year',
       annualSavings: 10,
-      icon: 'https://images.unsplash.com/photo-1713557112617-e12d67bddc3a',
-      tip: 'Integrates with your smart home automation'
+      icon: 'https://images.unsplash.com/photo-1713557112617-e12d67bddc3a'
     },
     {
       id: 'garage',
       name: 'Smart Garage Door',
       description: 'Save up to $20/year',
       annualSavings: 20,
-      icon: 'https://images.pexels.com/photos/16773548/pexels-photo-16773548.jpeg',
-      tip: 'Smart scheduling reduces unnecessary power usage'
+      icon: 'https://images.pexels.com/photos/16773548/pexels-photo-16773548.jpeg'
     },
     {
       id: 'sensors',
       name: 'Security Sensors',
       description: 'Save up to $25/year',
       annualSavings: 25,
-      icon: 'https://images.unsplash.com/photo-1655195215404-a89325e7dd3e',
-      tip: 'Motion sensors help optimize lighting automation'
+      icon: 'https://images.unsplash.com/photo-1655195215404-a89325e7dd3e'
     },
     {
       id: 'cameras',
       name: 'Smart Cameras',
-      description: 'Save up to $15/year',  
+      description: 'Save up to $15/year',
       annualSavings: 15,
-      icon: 'https://images.pexels.com/photos/29942709/pexels-photo-29942709.jpeg',
-      tip: 'Motion detection reduces continuous recording power'
+      icon: 'https://images.pexels.com/photos/29942709/pexels-photo-29942709.jpeg'
     },
     {
       id: 'hub',
       name: 'Vivint Smart Hub',
       description: 'Save up to $5/year',
       annualSavings: 5,
-      icon: 'https://images.pexels.com/photos/10991709/pexels-photo-10991709.jpeg',
-      tip: 'Central control optimizes entire system efficiency'
+      icon: 'https://images.pexels.com/photos/10991709/pexels-photo-10991709.jpeg'
     }
   ];
 
@@ -99,7 +101,7 @@ const EnergyCalculator = () => {
       }, 0);
 
     const monthlySavings = totalAnnualSavings / 12;
-    const monthlyBill = parseFloat(formData.monthlyBill) || 120; // Default to national average
+    const monthlyBill = parseFloat(formData.monthlyBill) || 120;
     const percentageSaved = monthlyBill > 0 ? (monthlySavings / monthlyBill) * 100 : 0;
 
     setResults({
@@ -116,6 +118,13 @@ const EnergyCalculator = () => {
     }));
   };
 
+  const handleContactChange = (field, value) => {
+    setContactData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   const handleProductToggle = (productId) => {
     setSelectedProducts(prev => ({
       ...prev,
@@ -123,237 +132,383 @@ const EnergyCalculator = () => {
     }));
   };
 
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
   const resetCalculator = () => {
+    setCurrentStep(0);
     setFormData({
       zipCode: '',
       homeSize: '',
-      peopleCount: 2,
+      peopleCount: 5,
       monthlyBill: '',
       electricityRate: 0.19
     });
     setSelectedProducts({});
+    setContactData({
+      name: '',
+      email: '',
+      phone: '',
+      bestTime: 'Morning'
+    });
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-orange-100">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 text-center">
-            How Much Can You Save with Vivint?
-          </h1>
-          <p className="text-lg text-gray-600 text-center mt-2 max-w-2xl mx-auto">
-            Estimate your energy savings by selecting the smart devices you use—or plan to install—in your home.
-          </p>
+  // Progress indicator component
+  const ProgressIndicator = ({ step }) => (
+    <div className="progress-container">
+      {[0, 1, 2, 3].map((index) => (
+        <div
+          key={index}
+          className={`progress-dot ${step === index ? 'active' : ''}`}
+        />
+      ))}
+    </div>
+  );
+
+  // Intro Page (Step 0)
+  const IntroPage = () => (
+    <div className="intro-page">
+      <div className="intro-content">
+        <div className="intro-icons">
+          {/* Smart home icons representation */}
+          <div className="home-icon-group">
+            <div className="icon-line"></div>
+            <div className="icon-line"></div>
+            <div className="icon-line"></div>
+          </div>
         </div>
+        
+        <h1 className="intro-title">
+          How much can you save with Vivint smart home products?
+        </h1>
+        
+        <p className="intro-subtitle">
+          Estimate your energy savings by selecting the smart devices you use—or plan to install—in your home.
+        </p>
+        
+        <button onClick={nextStep} className="get-started-btn">
+          <span>Get started</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
       </div>
+    </div>
+  );
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Step 1: Your Home Setup */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-orange-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <span className="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">1</span>
-            Tell us about your home
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Zip Code (optional)
-              </label>
-              <input
-                type="text"
-                value={formData.zipCode}
-                onChange={(e) => handleInputChange('zipCode', e.target.value)}
-                placeholder="e.g., 84043"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-              />
-            </div>
+  // Home Profile Page (Step 1)
+  const HomeProfilePage = () => (
+    <div className="calculator-page">
+      <div className="calculator-container">
+        <button onClick={resetCalculator} className="reset-link">
+          reset calculator
+        </button>
+        
+        <div className="page-header">
+          <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <h2>Home profile</h2>
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                What's the size of your home?
-              </label>
-              <select
-                value={formData.homeSize}
-                onChange={(e) => handleInputChange('homeSize', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-              >
-                <option value="">Select home size</option>
-                <option value="<1000">Less than 1,000 sq. ft.</option>
-                <option value="1000-2000">1,000–2,000 sq. ft.</option>
-                <option value="2000-3000">2,000–3,000 sq. ft.</option>
-                <option value=">3000">More than 3,000 sq. ft.</option>
-              </select>
+        <div className="form-section">
+          <div className="form-row">
+            <label>House size</label>
+            <div className="form-value">{formData.homeSize || '1,000–2,000 sq. ft.'}</div>
+            <div className="slider-container">
+              <div className="slider-track"></div>
+              <div className="slider-fill" style={{width: '33%'}}></div>
+              <div className="slider-thumb" style={{left: '30%'}}></div>
             </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                How many people live in your home?
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={formData.peopleCount}
-                onChange={(e) => handleInputChange('peopleCount', parseInt(e.target.value))}
-                className="w-full h-2 bg-orange-200 rounded-lg appearance-none cursor-pointer slider"
-              />
-              <div className="flex justify-between text-sm text-gray-500 mt-1">
-                <span>1</span>
-                <span className="font-medium text-orange-600">{formData.peopleCount} people</span>
-                <span>10</span>
-              </div>
+          <div className="form-row">
+            <label>Number of people in home</label>
+            <div className="form-value">{formData.peopleCount}</div>
+            <div className="slider-container">
+              <div className="slider-track"></div>
+              <div className="slider-fill" style={{width: `${(formData.peopleCount - 1) * 11}%`}}></div>
+              <div className="slider-thumb" style={{left: `${(formData.peopleCount - 1) * 11}%`}}></div>
             </div>
+            <input
+              type="range"
+              min="1"
+              max="10"
+              value={formData.peopleCount}
+              onChange={(e) => handleInputChange('peopleCount', parseInt(e.target.value))}
+              className="range-input"
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                What's your average monthly electric bill?
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-3 text-gray-500">$</span>
-                <input
-                  type="number"
-                  value={formData.monthlyBill}
-                  onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
-                  placeholder="120"
-                  className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
-                />
-              </div>
-              <p className="text-sm text-gray-500 mt-1">If you're not sure, we'll use the national average.</p>
-            </div>
+          <div className="input-group">
+            <label>Monthly electric bill</label>
+            <input
+              type="text"
+              value={formData.monthlyBill}
+              onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
+              placeholder="e.g., $120"
+              className="form-input"
+            />
+            <p className="input-help">If you're not sure, we'll use the national average.</p>
+          </div>
+
+          <div className="input-group">
+            <label>Electricity rate <span className="optional">Optional</span></label>
+            <input
+              type="text"
+              value={formData.electricityRate}
+              onChange={(e) => handleInputChange('electricityRate', e.target.value)}
+              placeholder="e.g., $0.19 per kWh"
+              className="form-input"
+            />
+            <p className="input-help">National average: $0.19 per kWh (as of March 2025)</p>
+          </div>
+
+          <div className="input-group">
+            <label>Zip code <span className="optional">Optional</span></label>
+            <input
+              type="text"
+              value={formData.zipCode}
+              onChange={(e) => handleInputChange('zipCode', e.target.value)}
+              placeholder="e.g., 84043"
+              className="form-input"
+            />
           </div>
         </div>
 
-        {/* Step 2: Choose Your Smart Home Products */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 border border-orange-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <span className="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">2</span>
-            Which Vivint products are you using or considering?
-          </h2>
+        <button onClick={nextStep} className="next-btn">
+          <span>Next</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <ProgressIndicator step={1} />
+      </div>
+    </div>
+  );
+
+  // Smart Products Page (Step 2)
+  const SmartProductsPage = () => (
+    <div className="calculator-page">
+      <div className="calculator-container products-container">
+        <button onClick={resetCalculator} className="reset-link">
+          reset calculator
+        </button>
+        
+        <div className="page-header">
+          <svg width="36" height="38" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <h2>Choose your smart home products</h2>
+        </div>
+
+        <div className="products-list">
+          {smartProducts.map((product) => (
+            <div key={product.id} className="product-item">
+              <div className="product-image">
+                <img src={product.icon} alt={product.name} />
+              </div>
+              <div className="product-info">
+                <h3 className="product-name">{product.name}</h3>
+                <p className="product-savings">{product.description}</p>
+                <div 
+                  className={`product-toggle ${selectedProducts[product.id] ? 'active' : ''}`}
+                  onClick={() => handleProductToggle(product.id)}
+                >
+                  <div className="toggle-circle"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={nextStep} className="next-btn">
+          <span>Next</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <ProgressIndicator step={2} />
+      </div>
+    </div>
+  );
+
+  // Results Page (Step 3)
+  const ResultsPage = () => {
+    const monthlyBill = parseFloat(formData.monthlyBill) || 120;
+    const newBill = monthlyBill - results.monthlySavings;
+    const selectedProductsList = Object.keys(selectedProducts)
+      .filter(productId => selectedProducts[productId])
+      .map(productId => smartProducts.find(p => p.id === productId));
+
+    return (
+      <div className="calculator-page">
+        <div className="calculator-container">
+          <button onClick={resetCalculator} className="reset-link">
+            reset calculator
+          </button>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {smartProducts.map((product) => (
-              <div
-                key={product.id}
-                className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                  selectedProducts[product.id]
-                    ? 'border-orange-500 bg-orange-50 shadow-md'
-                    : 'border-gray-200 bg-white hover:border-orange-300'
-                }`}
-                onClick={() => handleProductToggle(product.id)}
-              >
-                <div className="flex items-start space-x-3">
-                  <img
-                    src={product.icon}
-                    alt={product.name}
-                    className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 text-sm mb-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-orange-600 font-medium text-sm">
-                      {product.description}
-                    </p>
-                  </div>
-                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                    selectedProducts[product.id]
-                      ? 'bg-orange-500 border-orange-500'
-                      : 'border-gray-300'
-                  }`}>
-                    {selectedProducts[product.id] && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </div>
+          <div className="page-header">
+            <svg width="30" height="32" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+            </svg>
+            <h2>Results</h2>
+          </div>
+
+          <div className="results-card">
+            <h3 className="results-title">Here's how much you could save with Vivint:</h3>
+            
+            <div className="savings-display">
+              <span className="savings-amount">${results.annualSavings}</span>
+              <span className="savings-period">annual savings</span>
+            </div>
+
+            <div className="bill-comparison">
+              <div className="bill-item">
+                <p className="bill-label">Your average monthly bill</p>
+                <div className="bill-bar original">
+                  <span className="bill-amount">${monthlyBill}</span>
+                </div>
+              </div>
+              
+              <div className="bill-item">
+                <p className="bill-label">Your bill with Vivint</p>
+                <div className="bill-bar savings" style={{width: `${(newBill / monthlyBill) * 100}%`}}>
+                  <span className="bill-amount">${Math.round(newBill)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="savings-breakdown">
+            <h3 className="breakdown-title">Savings breakdown</h3>
+            
+            {selectedProductsList.map((product) => (
+              <div key={product.id} className="breakdown-item">
+                <div className="breakdown-info">
+                  <span className="breakdown-name">{product.name}</span>
+                  <span className="breakdown-amount">${Math.round(product.annualSavings / 12)}</span>
+                </div>
+                <div className="breakdown-bar">
+                  <div className="breakdown-fill" style={{width: `${(product.annualSavings / 200) * 100}%`}}></div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Results Section */}
-        {Object.values(selectedProducts).some(Boolean) && (
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl shadow-xl p-6 md:p-8 text-white mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-              Here's What You Could Save
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                <h3 className="text-sm font-medium opacity-90 mb-2">Estimated yearly savings</h3>
-                <div className="text-3xl font-bold">${results.annualSavings}</div>
-                <div className="text-sm opacity-75">per year</div>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                <h3 className="text-sm font-medium opacity-90 mb-2">Estimated monthly savings</h3>
-                <div className="text-3xl font-bold">${Math.round(results.monthlySavings)}</div>
-                <div className="text-sm opacity-75">per month</div>
-              </div>
-              
-              {formData.monthlyBill && (
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
-                  <h3 className="text-sm font-medium opacity-90 mb-2">You could reduce your energy bill by</h3>
-                  <div className="text-3xl font-bold">{Math.round(results.percentageSaved)}%</div>
-                  <div className="text-sm opacity-75">reduction</div>
-                </div>
-              )}
-            </div>
-
-            {/* Tips Section */}
-            <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-xl p-6">
-              <h3 className="text-lg font-bold mb-4">💡 Tips to Maximize Your Smart Home Savings</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.keys(selectedProducts)
-                  .filter(productId => selectedProducts[productId])
-                  .slice(0, 4)
-                  .map(productId => {
-                    const product = smartProducts.find(p => p.id === productId);
-                    return (
-                      <div key={productId} className="text-sm">
-                        <span className="font-medium">{product.name}:</span> {product.tip}
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-
-            <div className="text-center mt-6">
-              <p className="text-sm opacity-75">
-                Actual savings may vary based on usage patterns, local rates, home size, and product configuration. 
-                <br />
-                Estimates are based on the national average electricity rate of $0.19 per kWh (March 2025).
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* CTA Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center border border-orange-100">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Take the Next Step Toward a Smarter Home
-          </h2>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-200 transform hover:scale-105">
-              Get a Free Quote
-            </button>
-            <button className="border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-bold py-3 px-8 rounded-lg transition-all duration-200">
-              Customize Your Smart Home Package
-            </button>
-          </div>
-
-          <button
-            onClick={resetCalculator}
-            className="text-gray-500 hover:text-gray-700 text-sm underline transition-colors duration-200"
-          >
-            Reset Calculator
+          <button onClick={nextStep} className="quote-btn">
+            <span>Get a quote</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
           </button>
+
+          <ProgressIndicator step={3} />
         </div>
       </div>
+    );
+  };
+
+  // Contact Page (Step 4)
+  const ContactPage = () => (
+    <div className="calculator-page">
+      <div className="calculator-container">
+        <button onClick={resetCalculator} className="reset-link">
+          reset calculator
+        </button>
+        
+        <div className="page-header">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <h2>Contact</h2>
+        </div>
+
+        <p className="contact-subtitle">Get a personalized quote</p>
+
+        <div className="contact-form">
+          <div className="input-group">
+            <label>Name</label>
+            <input
+              type="text"
+              value={contactData.name}
+              onChange={(e) => handleContactChange('name', e.target.value)}
+              placeholder="John"
+              className="form-input"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={contactData.email}
+              onChange={(e) => handleContactChange('email', e.target.value)}
+              placeholder="Johns@email.com"
+              className="form-input"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Phone</label>
+            <input
+              type="tel"
+              value={contactData.phone}
+              onChange={(e) => handleContactChange('phone', e.target.value)}
+              placeholder="900 999 999"
+              className="form-input"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Best time to contact</label>
+            <select
+              value={contactData.bestTime}
+              onChange={(e) => handleContactChange('bestTime', e.target.value)}
+              className="form-input"
+            >
+              <option value="Morning">Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+            </select>
+          </div>
+        </div>
+
+        <button onClick={() => alert('Quote request sent!')} className="send-btn">
+          <span>Send</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <ProgressIndicator step={4} />
+      </div>
+    </div>
+  );
+
+  // Render current step
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0: return <IntroPage />;
+      case 1: return <HomeProfilePage />;
+      case 2: return <SmartProductsPage />;
+      case 3: return <ResultsPage />;
+      case 4: return <ContactPage />;
+      default: return <IntroPage />;
+    }
+  };
+
+  return (
+    <div className="vivint-calculator">
+      {renderStep()}
     </div>
   );
 };
@@ -361,7 +516,7 @@ const EnergyCalculator = () => {
 function App() {
   return (
     <div className="App">
-      <EnergyCalculator />
+      <VivintCalculator />
     </div>
   );
 }
