@@ -148,6 +148,7 @@ body {
 .reset-link svg {
   width: 89px;
   height: 14px;
+  display: block;
 }
 
 .page-header {
