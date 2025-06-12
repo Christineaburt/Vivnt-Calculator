@@ -325,8 +325,10 @@ function App() {
                 </div>
               </div>
               <div className="form-row">
-                <label>Number of people in home</label>
-                <div className="form-value">{peopleCount}</div>
+                <div className="slider-label-row">
+                  <label>Number of people in home</label>
+                  <div className="form-value">{peopleCount}</div>
+                </div>
                 <div className="slider-container">
                   <div className="slider-track"></div>
                   <div className="slider-fill" style={{width: `${(peopleCount - 1) * 11.11}%`}}></div>
