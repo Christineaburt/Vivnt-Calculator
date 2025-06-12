@@ -484,6 +484,7 @@ const VivintCalculator = () => {
           <div className="input-group">
             <label>Electricity rate <span className="optional">Optional</span></label>
             <input
+              key="electricityRate-input"
               type="text"
               value={formData.electricityRate}
               onChange={(e) => handleInputChange('electricityRate', e.target.value)}
