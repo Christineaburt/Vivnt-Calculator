@@ -189,12 +189,12 @@ const VivintCalculator = () => {
     }));
   }, []);
 
-  const handleProductToggle = (productId) => {
+  const handleProductToggle = useCallback((productId) => {
     setSelectedProducts(prev => ({
       ...prev,
       [productId]: !prev[productId]
     }));
-  };
+  }, []);
 
   const nextStep = () => {
     // Validate current step before proceeding
