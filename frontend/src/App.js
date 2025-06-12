@@ -94,8 +94,8 @@ const VivintCalculator = () => {
     }
   ];
 
-  // Calculate savings whenever selections change
-  useEffect(() => {
+  // Calculate savings whenever selections change - moved to when needed instead of useEffect
+  const calculateResults = () => {
     const totalAnnualSavings = Object.keys(selectedProducts)
       .filter(productId => selectedProducts[productId])
       .reduce((total, productId) => {
@@ -107,12 +107,12 @@ const VivintCalculator = () => {
     const monthlyBill = parseFloat(formData.monthlyBill) || 120;
     const percentageSaved = monthlyBill > 0 ? (monthlySavings / monthlyBill) * 100 : 0;
 
-    setResults({
+    return {
       annualSavings: totalAnnualSavings,
       monthlySavings: monthlySavings,
       percentageSaved: percentageSaved
-    });
-  }, [selectedProducts, formData.monthlyBill]);
+    };
+  };
 
   const validateField = (field, value) => {
     const newErrors = { ...errors };
