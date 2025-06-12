@@ -218,13 +218,20 @@ const VivintCalculator = () => {
       }
     }
     
+    // Update contact data immediately
     setContactData(prev => ({
       ...prev,
       [field]: value
     }));
     
-    // Validate after setting the value
-    setTimeout(() => validateField(field, value), 0);
+    // Clear any existing error for this field immediately if value is valid
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleProductToggle = (productId) => {
