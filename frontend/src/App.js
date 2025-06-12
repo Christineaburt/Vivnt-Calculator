@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 const VivintCalculator = () => {
+  console.log('VivintCalculator render'); // Debug line
   const [currentStep, setCurrentStep] = useState(0);
   
   // Form state
