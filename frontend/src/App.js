@@ -31,14 +31,14 @@ function App() {
   const [errors, setErrors] = useState({});
 
   const smartProducts = [
-    { id: 'thermostat', name: 'Smart Thermostat', annualSavings: 180, checked: thermostat, setter: setThermostat, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/thermostat.jpeg' },
-    { id: 'lighting', name: 'Smart Lighting', annualSavings: 60, checked: lighting, setter: setLighting, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/lighting.jpeg' },
-    { id: 'plugs', name: 'Smart Plugs', annualSavings: 40, checked: plugs, setter: setPlugs, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/plugs.jpeg' },
-    { id: 'doorlock', name: 'Smart Door Lock', annualSavings: 10, checked: doorlock, setter: setDoorlock, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/doorlock.jpeg' },
-    { id: 'garage', name: 'Smart Garage Door Controller', annualSavings: 20, checked: garage, setter: setGarage, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/garage.jpeg' },
-    { id: 'sensors', name: 'Security Sensors', annualSavings: 25, checked: sensors, setter: setSensors, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/sensors.jpeg' },
-    { id: 'cameras', name: 'Smart Cameras', annualSavings: 15, checked: cameras, setter: setCameras, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/cameras.jpeg' },
-    { id: 'hub', name: 'Vivint Smart Hub', annualSavings: 5, checked: hub, setter: setHub, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/hub.jpeg' }
+    { id: 'thermostat', name: 'Smart Thermostat', annualSavings: 180, checked: thermostat, setter: setThermostat, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/thermostat.jpeg' },
+    { id: 'lighting', name: 'Smart Lighting', annualSavings: 60, checked: lighting, setter: setLighting, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/lighting.jpeg' },
+    { id: 'plugs', name: 'Smart Plugs', annualSavings: 40, checked: plugs, setter: setPlugs, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/plugs.jpeg' },
+    { id: 'doorlock', name: 'Smart Door Lock', annualSavings: 10, checked: doorlock, setter: setDoorlock, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/doorlock.jpeg' },
+    { id: 'garage', name: 'Smart Garage Door Controller', annualSavings: 20, checked: garage, setter: setGarage, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/garage.jpeg' },
+    { id: 'sensors', name: 'Security Sensors', annualSavings: 25, checked: sensors, setter: setSensors, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/sensors.jpeg' },
+    { id: 'cameras', name: 'Smart Cameras', annualSavings: 15, checked: cameras, setter: setCameras, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/cameras.jpeg' },
+    { id: 'hub', name: 'Vivint Smart Hub', annualSavings: 5, checked: hub, setter: setHub, image: 'https://raw.githubusercontent.com/Christineaburt/Vivnt-Calculator/main/public/images/hub.jpeg' }
 ];
 
   // Validation functions
