@@ -540,6 +540,7 @@ const VivintCalculator = () => {
               type="text"
               value={formData.electricityRate}
               onChange={(e) => handleInputChange('electricityRate', e.target.value)}
+              onBlur={(e) => validateField('electricityRate', e.target.value)}
               placeholder="e.g., $0.19 per kWh"
               className={`form-input ${errors.electricityRate ? 'error' : ''}`}
               autoComplete="off"
