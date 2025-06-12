@@ -741,6 +741,7 @@ const VivintCalculator = () => {
               type="text"
               value={contactData.name}
               onChange={(e) => handleContactChange('name', e.target.value)}
+              onBlur={(e) => validateField('name', e.target.value)}
               placeholder="John"
               className={`form-input ${errors.name ? 'error' : ''}`}
               autoComplete="off"
