@@ -26,3 +26,12 @@ const VivintCalculator = () => {
 
   // Validation errors
   const [errors, setErrors] = useState({});
+
+  return (
+    <div className="App">
+      <h1>Vivint Calculator</h1>
+    </div>
+  );
+}
+
+export default VivintCalculator;
