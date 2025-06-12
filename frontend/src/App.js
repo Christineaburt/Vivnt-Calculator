@@ -200,10 +200,9 @@ function App() {
   const getHomeSizePercentage = (value) => {
     const values = { '<1000': 0, '1000-2000': 1, '2000-3000': 2, '>3000': 3 };
     const numValue = values[value] || 1;
-    // Calculate percentage accounting for 4 positions (0,1,2,3) across full width
-    const percentage = (numValue / 3) * 100;
-    // Clamp between 0 and 100 to ensure thumb stays within bounds
-    return Math.max(0, Math.min(100, percentage));
+    // Use same calculation as people slider: (value / (max - 1)) * 100
+    // For 4 positions (0,1,2,3), max-1 = 3
+    return (numValue / 3) * 100;
   };
 
   const resetCalculator = () => {
