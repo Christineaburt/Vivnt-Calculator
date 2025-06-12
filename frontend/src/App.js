@@ -174,36 +174,20 @@ const VivintCalculator = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (field, value) => {
+  // Simple input handlers with useCallback to prevent re-renders
+  const handleInputChange = useCallback((field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
-  const handleContactChange = (field, value) => {
-    // For phone field, only allow numbers, spaces, hyphens, and parentheses
-    if (field === 'phone') {
-      if (value !== '' && !/^[\d\s\-\(\)]*$/.test(value)) {
-        return; // Don't update state if invalid characters
-      }
-    }
-    
-    // Update contact data immediately
+  const handleContactChange = useCallback((field, value) => {
     setContactData(prev => ({
       ...prev,
       [field]: value
     }));
-    
-    // Clear any existing error for this field immediately if value is valid
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-  };
+  }, []);
 
   const handleProductToggle = (productId) => {
     setSelectedProducts(prev => ({
