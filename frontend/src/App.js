@@ -612,7 +612,7 @@ const VivintCalculator = () => {
             <h3 className="results-title">Here's how much you could save with Vivint:</h3>
             
             <div className="savings-display">
-              <span className="savings-amount">${results.annualSavings}</span>
+              <span className="savings-amount">${currentResults.annualSavings}</span>
               <span className="savings-period">annual savings</span>
             </div>
 
