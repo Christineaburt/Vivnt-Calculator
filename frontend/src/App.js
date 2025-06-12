@@ -469,8 +469,10 @@ function App() {
               </svg>
             </button>
             <div className="page-header">
-              <svg width="30" height="32" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
-                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+              <svg width="33" height="34" viewBox="0 0 33 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.3593 33H4.36589C2.51035 33 1.00659 31.4923 1.00659 29.6319V14.4736C1.00659 13.4818 1.44239 12.5406 2.19741 11.9004L13.9565 1.79597C15.2083 0.734676 17.0417 0.734676 18.2935 1.79597L30.0526 11.8994C30.8076 12.5395 31.2434 13.4808 31.2434 14.4726V29.6308C31.2434 31.4912 29.7396 32.9989 27.8841 32.9989H19.4853" stroke="#BFC8C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20.9608 15.4275H13.7077C12.373 15.4275 11.2904 16.513 11.2904 17.8513C11.2904 19.1895 12.373 20.275 13.7077 20.275H18.5424C19.8771 20.275 20.9598 21.3605 20.9598 22.6987C20.9598 24.0369 19.8771 25.1224 18.5424 25.1224H11.2893" stroke="#BFC8C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.1249 27.5472V13.0038" stroke="#BFC8C7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <h2>Results</h2>
             </div>
