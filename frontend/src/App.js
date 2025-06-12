@@ -419,7 +419,7 @@ function App() {
                   </div>
                   <div className="product-info">
                     <h3 className="product-name">{product.name}</h3>
-                    <p className="product-savings">Save up to <span className="savings-amount">${product.annualSavings}/year</span></p>
+                    <p className="product-savings">Save up to <span className="savings-amount">${product.annualSavings}</span></p>
                     <label className="switch">
                       <input 
                         type="checkbox" 
