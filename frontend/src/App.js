@@ -502,7 +502,7 @@ function App() {
                   <div key={product.id} className="breakdown-item">
                     <div className="breakdown-info">
                       <span className="breakdown-name">{product.name}</span>
-                      <span className="breakdown-amount">${Math.round(product.annualSavings / 12)}</span>
+                      <span className="breakdown-amount">${Math.round(product.annualSavings / 12)/month}</span>
                     </div>
                     <div className="breakdown-bar">
                       <div className="breakdown-fill" style={{width: `${(product.annualSavings / 200) * 100}%`}}></div>
