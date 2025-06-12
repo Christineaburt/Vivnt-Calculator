@@ -710,6 +710,7 @@ const VivintCalculator = () => {
           <div className="input-group">
             <label>Phone</label>
             <input
+              key="contact-phone-input"
               type="tel"
               value={contactData.phone}
               onChange={(e) => handleContactChange('phone', e.target.value)}
