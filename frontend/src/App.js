@@ -175,39 +175,10 @@ const VivintCalculator = () => {
   };
 
   const handleInputChange = (field, value) => {
-    // For numeric fields, prevent invalid characters from being entered
-    if (field === 'monthlyBill' || field === 'electricityRate') {
-      // Allow empty string, numbers, and decimal points
-      if (value !== '' && !/^\d*\.?\d*$/.test(value)) {
-        return; // Don't update state if invalid characters
-      }
-    }
-    
-    // For zip code, only allow numbers
-    if (field === 'zipCode') {
-      if (value !== '' && !/^\d*$/.test(value)) {
-        return; // Don't update state if non-numeric
-      }
-      // Limit to 5 characters
-      if (value.length > 5) {
-        return;
-      }
-    }
-    
-    // Update form data immediately
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-    
-    // Clear any existing error for this field immediately if value is valid
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
   };
 
   const handleContactChange = (field, value) => {
