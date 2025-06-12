@@ -199,7 +199,7 @@ function App() {
 
   const getHomeSizePercentage = (value) => {
     const values = { '<1000': 0, '1000-2000': 1, '2000-3000': 2, '>3000': 3 };
-    const numValue = values[value] || 1;
+    const numValue = values[value] || 0;
     // Use same calculation as people slider: (value / (max - 1)) * 100
     // For 4 positions (0,1,2,3), max-1 = 3
     return (numValue / 3) * 100;
