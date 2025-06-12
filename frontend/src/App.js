@@ -470,6 +470,7 @@ const VivintCalculator = () => {
           <div className="input-group">
             <label>Monthly electric bill</label>
             <input
+              key="monthlyBill-input"
               type="text"
               value={formData.monthlyBill}
               onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
