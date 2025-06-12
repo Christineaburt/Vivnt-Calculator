@@ -311,11 +311,11 @@ function App() {
                   <div className="slider-track"></div>
                   <div className="slider-fill" style={{width: `${getHomeSizePercentage(homeSize)}%`}}></div>
                   <div className="slider-thumb" style={{left: `${getHomeSizePercentage(homeSize)}%`}}></div>
-                  <input type="range" min="1" max="4" value={
-                    homeSize === '<1000' ? 1 : homeSize === '1000-2000' ? 2 : homeSize === '2000-3000' ? 3 : 4
+                  <input type="range" min="0" max="3" value={
+                    homeSize === '<1000' ? 0 : homeSize === '1000-2000' ? 1 : homeSize === '2000-3000' ? 2 : 3
                   } onChange={(e) => {
                     const val = parseInt(e.target.value);
-                    const newSize = val === 1 ? '<1000' : val === 2 ? '1000-2000' : val === 3 ? '2000-3000' : '>3000';
+                    const newSize = val === 0 ? '<1000' : val === 1 ? '1000-2000' : val === 2 ? '2000-3000' : '>3000';
                     setHomeSize(newSize);
                   }} className="range-input house-size-slider" />
                 </div>
