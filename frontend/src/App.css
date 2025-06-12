@@ -226,7 +226,7 @@ body {
   left: 0;
   right: 0;
   width: calc(100% - 20px);
-  margin: 0 10px;
+  margin: 0;
 }
 
 .slider-fill {
@@ -239,7 +239,7 @@ body {
   left: 0;
   right: 0;
   width: calc(100% - 20px);
-  margin: 0 10px;
+  margin: 0;
 }
 
 .slider-thumb {
@@ -263,7 +263,7 @@ body {
   left: 0;
   right: 0;
   width: calc(100% - 20px);
-  margin: 0 10px;
+  margin: 0;
   z-index: 2;
 }
 
