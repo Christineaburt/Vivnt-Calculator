@@ -714,10 +714,8 @@ const VivintCalculator = () => {
               type="tel"
               value={contactData.phone}
               onChange={(e) => handleContactChange('phone', e.target.value)}
-              onBlur={(e) => validateField('phone', e.target.value)}
               placeholder="900 999 999"
               className={`form-input ${errors.phone ? 'error' : ''}`}
-              autoComplete="off"
             />
             {errors.phone && <span className="error-text">{errors.phone}</span>}
           </div>
