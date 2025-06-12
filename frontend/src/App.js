@@ -307,8 +307,10 @@ function App() {
             </div>
             <div className="form-section">
               <div className="form-row">
-                <label>House size</label>
-                <div className="form-value">{getHomeSizeLabel(homeSize)}</div>
+                <div className="slider-label-row">
+                  <label>House size</label>
+                  <div className="form-value">{getHomeSizeLabel(homeSize)}</div>
+                </div>
                 <div className="slider-container">
                   <div className="slider-track"></div>
                   <div className="slider-fill" style={{width: `${getHomeSizePercentage(homeSize)}%`}}></div>
