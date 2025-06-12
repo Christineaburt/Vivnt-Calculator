@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 const VivintCalculator = () => {
@@ -10,7 +10,7 @@ const VivintCalculator = () => {
     homeSize: '1000-2000',
     peopleCount: 5,
     monthlyBill: '',
-    electricityRate: '' // Empty initially
+    electricityRate: ''
   });
 
   // Smart products state
