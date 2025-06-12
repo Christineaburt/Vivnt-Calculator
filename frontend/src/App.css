@@ -680,19 +680,29 @@ input:checked + .slider:before {
 
 /* Button Styles */
 .get-started-btn, .next-btn, .send-btn {
+  background: #E2B95D;
+  color: #000;
   border: none;
+  padding: 16px 32px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 18px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   transition: all 0.2s ease;
-  background: none;
-  padding: 0;
+  margin: 0 auto;
 }
 
 .get-started-btn:hover, .next-btn:hover, .send-btn:hover {
+  background: #D4A652;
   transform: translateY(-2px);
 }
 
 .get-started-btn.disabled, .next-btn.disabled, .send-btn.disabled {
-  opacity: 0.5;
+  background: #ccc;
+  color: #999;
   cursor: not-allowed;
   transform: none;
 }
