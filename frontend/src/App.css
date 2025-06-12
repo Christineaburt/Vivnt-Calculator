@@ -679,48 +679,22 @@ input:checked + .slider:before {
 }
 
 /* Button Styles */
-.next-btn, .quote-btn, .send-btn {
-  width: 134px;
-  height: 51px;
-  background: #E2B95D;
-  border-radius: 27px;
+.get-started-btn, .next-btn, .send-btn {
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-weight: 500;
-  font-size: 20px;
-  color: #000000;
   cursor: pointer;
-  margin: 20px auto 30px;
   transition: all 0.2s ease;
-  position: relative;
-  z-index: 10;
+  background: none;
+  padding: 0;
 }
 
-.next-btn.disabled, .send-btn.disabled {
-  background: #BFC8C7;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.next-btn.disabled:hover, .send-btn.disabled:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.quote-btn {
-  width: 200px;
-}
-
-.send-btn {
-  width: 140px;
-}
-
-.next-btn:hover, .quote-btn:hover, .send-btn:hover {
+.get-started-btn:hover, .next-btn:hover, .send-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.get-started-btn.disabled, .next-btn.disabled, .send-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Progress Indicator */
