@@ -262,7 +262,7 @@ const VivintCalculator = () => {
       homeSize: '1000-2000',
       peopleCount: 5,
       monthlyBill: '',
-      electricityRate: '' // Empty initially
+      electricityRate: ''
     });
     setSelectedProducts({});
     setContactData({
