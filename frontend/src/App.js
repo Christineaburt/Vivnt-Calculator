@@ -402,14 +402,17 @@ function App() {
               {smartProducts.map((product) => (
                 <div key={product.id} className="product-item">
                   <div className="product-image">
-                    {/* Placeholder for product images - user will provide these */}
-                    <div className="image-placeholder">
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21,15 16,10 5,21"/>
-                      </svg>
-                    </div>
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} />
+                    ) : (
+                      <div className="image-placeholder">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#BFC8C7" strokeWidth="2">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                          <circle cx="8.5" cy="8.5" r="1.5"/>
+                          <polyline points="21,15 16,10 5,21"/>
+                        </svg>
+                      </div>
+                    )}
                   </div>
                   <div className="product-info">
                     <h3 className="product-name">{product.name}</h3>
