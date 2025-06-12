@@ -66,7 +66,7 @@ const VivintCalculator = () => {
     },
     {
       id: 'garage',
-      name: 'Smart Garage Door',
+      name: 'Smart Garage Door Controller',
       description: 'Save up to $20/year',
       annualSavings: 20,
       icon: 'https://images.pexels.com/photos/16773548/pexels-photo-16773548.jpeg'
@@ -118,9 +118,18 @@ const VivintCalculator = () => {
     const newErrors = { ...errors };
     
     switch (field) {
+      case 'zipCode':
+        if (value && !/^\d{5}(-\d{4})?$/.test(value)) {
+          newErrors[field] = 'Please enter a valid 5-digit zip code';
+        } else {
+          delete newErrors[field];
+        }
+        break;
       case 'monthlyBill':
         if (value && (isNaN(value) || parseFloat(value) <= 0)) {
           newErrors[field] = 'Please enter a valid dollar amount';
+        } else if (value && parseFloat(value) > 500) {
+          newErrors[field] = 'Monthly bill cannot exceed $500';
         } else {
           delete newErrors[field];
         }
@@ -132,15 +141,26 @@ const VivintCalculator = () => {
           delete newErrors[field];
         }
         break;
+      case 'name':
+        if (!value.trim()) {
+          newErrors[field] = 'Name is required';
+        } else {
+          delete newErrors[field];
+        }
+        break;
       case 'email':
-        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        if (!value.trim()) {
+          newErrors[field] = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           newErrors[field] = 'Please enter a valid email address';
         } else {
           delete newErrors[field];
         }
         break;
       case 'phone':
-        if (value && !/^[\d\s\-\(\)]{10,}$/.test(value.replace(/\D/g, ''))) {
+        if (!value.trim()) {
+          newErrors[field] = 'Phone number is required';
+        } else if (!/^[\d\s\-\(\)]{10,}$/.test(value.replace(/\D/g, ''))) {
           newErrors[field] = 'Please enter a valid phone number';
         } else {
           delete newErrors[field];
@@ -151,21 +171,27 @@ const VivintCalculator = () => {
     }
     
     setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (field, value) => {
-    // Input validation for numeric fields
+    // For numeric fields, prevent invalid characters from being entered
     if (field === 'monthlyBill' || field === 'electricityRate') {
       // Allow empty string, numbers, and decimal points
-      if (value === '' || /^\d*\.?\d*$/.test(value)) {
-        setFormData(prev => ({
-          ...prev,
-          [field]: value
-        }));
-        validateField(field, value);
+      if (value !== '' && !/^\d*\.?\d*$/.test(value)) {
+        return; // Don't update state if invalid characters
       }
-      // Don't update state if invalid characters are entered
-      return;
+    }
+    
+    // For zip code, only allow numbers
+    if (field === 'zipCode') {
+      if (value !== '' && !/^\d*$/.test(value)) {
+        return; // Don't update state if non-numeric
+      }
+      // Limit to 5 characters
+      if (value.length > 5) {
+        return;
+      }
     }
     
     setFormData(prev => ({
@@ -173,23 +199,16 @@ const VivintCalculator = () => {
       [field]: value
     }));
     
-    if (field === 'zipCode' && value && !/^\d{5}(-\d{4})?$/.test(value)) {
-      validateField('zipCode', value);
-    }
+    // Validate after setting the value
+    setTimeout(() => validateField(field, value), 0);
   };
 
   const handleContactChange = (field, value) => {
-    // Phone number validation
+    // For phone field, only allow numbers, spaces, hyphens, and parentheses
     if (field === 'phone') {
-      // Allow empty string, numbers, spaces, hyphens, and parentheses
-      if (value === '' || /^[\d\s\-\(\)]*$/.test(value)) {
-        setContactData(prev => ({
-          ...prev,
-          [field]: value
-        }));
-        validateField(field, value);
+      if (value !== '' && !/^[\d\s\-\(\)]*$/.test(value)) {
+        return; // Don't update state if invalid characters
       }
-      return;
     }
     
     setContactData(prev => ({
@@ -197,9 +216,8 @@ const VivintCalculator = () => {
       [field]: value
     }));
     
-    if (field === 'email') {
-      validateField(field, value);
-    }
+    // Validate after setting the value
+    setTimeout(() => validateField(field, value), 0);
   };
 
   const handleProductToggle = (productId) => {
@@ -210,7 +228,30 @@ const VivintCalculator = () => {
   };
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    // Validate current step before proceeding
+    let isValid = true;
+    
+    if (currentStep === 1) {
+      // Validate step 2 fields
+      if (formData.monthlyBill) {
+        isValid = validateField('monthlyBill', formData.monthlyBill) && isValid;
+      }
+      if (formData.zipCode) {
+        isValid = validateField('zipCode', formData.zipCode) && isValid;
+      }
+      if (formData.electricityRate) {
+        isValid = validateField('electricityRate', formData.electricityRate) && isValid;
+      }
+    }
+    
+    if (currentStep === 4) {
+      // Validate contact form
+      isValid = validateField('name', contactData.name) && isValid;
+      isValid = validateField('email', contactData.email) && isValid;
+      isValid = validateField('phone', contactData.phone) && isValid;
+    }
+    
+    if (isValid && currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -256,17 +297,12 @@ const VivintCalculator = () => {
 
   const handleContactSubmit = () => {
     // Validate required fields
-    const requiredFields = ['name', 'email', 'phone'];
-    const newErrors = {};
+    let isValid = true;
+    isValid = validateField('name', contactData.name) && isValid;
+    isValid = validateField('email', contactData.email) && isValid;
+    isValid = validateField('phone', contactData.phone) && isValid;
     
-    requiredFields.forEach(field => {
-      if (!contactData[field]) {
-        newErrors[field] = 'This field is required';
-      }
-    });
-    
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (!isValid) {
       return;
     }
     
@@ -449,6 +485,7 @@ const VivintCalculator = () => {
               placeholder="e.g., 84043"
               className={`form-input ${errors.zipCode ? 'error' : ''}`}
               autoComplete="off"
+              maxLength="5"
             />
             {errors.zipCode && <span className="error-text">{errors.zipCode}</span>}
           </div>
@@ -497,12 +534,14 @@ const VivintCalculator = () => {
                 <p className="product-savings">
                   Save up to <span className="savings-amount">${product.annualSavings}/year</span>
                 </p>
-                <div 
-                  className={`product-toggle ${selectedProducts[product.id] ? 'active' : ''}`}
-                  onClick={() => handleProductToggle(product.id)}
-                >
-                  <div className="toggle-circle"></div>
-                </div>
+                <label className="switch">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedProducts[product.id] || false}
+                    onChange={() => handleProductToggle(product.id)}
+                  />
+                  <span className="slider round"></span>
+                </label>
               </div>
             </div>
           ))}
@@ -523,7 +562,7 @@ const VivintCalculator = () => {
   // Results Page (Step 3)
   const ResultsPage = () => {
     const monthlyBill = parseFloat(formData.monthlyBill) || 120;
-    const newBill = monthlyBill - results.monthlySavings;
+    const newBill = Math.max(0, monthlyBill - results.monthlySavings);
     const selectedProductsList = Object.keys(selectedProducts)
       .filter(productId => selectedProducts[productId])
       .map(productId => smartProducts.find(p => p.id === productId));
@@ -532,11 +571,10 @@ const VivintCalculator = () => {
       <div className="calculator-page">
         <div className="calculator-container">
           <button onClick={resetCalculator} className="reset-link">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="3,6 5,6 21,6"></polyline>
-              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+            <svg width="89" height="14" viewBox="0 0 89 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M80 7C80 4.8 81.8 3 84 3C86.2 3 88 4.8 88 7C88 9.2 86.2 11 84 11H80M80 11L82 13M80 11L82 9" stroke="#5F7775" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3.432 5.368H3.696V6.479H3.168C2.112 6.479 1.771 7.304 1.771 8.173V11H0.583V5.368H1.639L1.771 6.215C2.057 5.742 2.508 5.368 3.432 5.368ZM3.97263 8.195C3.97263 6.446 5.08363 5.302 6.71163 5.302C8.37263 5.302 9.46163 6.336 9.49463 7.986C9.49463 8.129 9.48363 8.283 9.46163 8.437H5.21563V8.503C5.27063 9.471 5.85363 10.098 6.78863 10.098C7.51463 10.098 8.04263 9.735 8.20763 9.108H9.39563C9.19763 10.219 8.26263 11.066 6.87663 11.066C5.09463 11.066 3.97263 9.922 3.97263 8.195ZM5.25963 7.568H8.26263C8.16363 6.732 7.58063 6.259 6.75563 6.259C5.99663 6.259 5.34763 6.765 5.25963 7.568ZM10.2248 9.141H11.3688C11.4128 9.724 11.9518 10.142 12.7658 10.142C13.4808 10.142 13.9758 9.856 13.9758 9.394C13.9758 8.8 13.4698 8.745 12.6118 8.635C11.3468 8.481 10.3348 8.217 10.3348 7.051C10.3348 5.984 11.2918 5.291 12.6228 5.302C13.9978 5.302 14.9658 5.94 15.0428 7.095H13.8878C13.8328 6.589 13.3378 6.215 12.6448 6.215C11.9518 6.215 11.4898 6.501 11.4898 6.952C11.4898 7.48 12.0288 7.524 12.8318 7.623C14.0968 7.766 15.1418 8.052 15.1418 9.306C15.1418 10.384 14.1298 11.066 12.7768 11.066C11.2808 11.066 10.2578 10.362 10.2248 9.141ZM15.8965 8.195C15.8965 6.446 17.0075 5.302 18.6355 5.302C20.2965 5.302 21.3855 6.336 21.4185 7.986C21.4185 8.129 21.4075 8.283 21.3855 8.437H17.1395V8.503C17.1945 9.471 17.7775 10.098 18.7125 10.098C19.4385 10.098 19.9665 9.735 20.1315 9.108H21.3195C21.1215 10.219 20.1865 11.066 18.8005 11.066C17.0185 11.066 15.8965 9.922 15.8965 8.195ZM17.1835 7.568H20.1865C20.0875 6.732 19.5045 6.259 18.6795 6.259C17.9205 6.259 17.2715 6.765 17.1835 7.568ZM22.6989 9.471V6.413H21.7199V5.368H22.6989V3.795H23.8979V5.368H25.2509V6.413H23.8979V9.35C23.8979 9.79 24.0519 9.955 24.4809 9.955H25.3829V11H24.2389C23.1609 11 22.6989 10.494 22.6989 9.471ZM32.817 8.976H34.027C33.807 10.263 32.872 11.066 31.431 11.066C29.737 11.066 28.626 9.911 28.626 8.173C28.626 6.446 29.748 5.302 31.464 5.302C32.883 5.302 33.807 6.105 34.027 7.37H32.806C32.652 6.732 32.146 6.314 31.431 6.314C30.474 6.314 29.847 7.073 29.847 8.173C29.847 9.284 30.474 10.054 31.431 10.054C32.168 10.054 32.674 9.636 32.817 8.976ZM40.1385 9.966H40.3695V11H39.7425C38.9725 11 38.7085 10.659 38.7085 10.098C38.3345 10.67 37.7625 11.066 36.8495 11.066C35.6175 11.066 34.7595 10.461 34.7595 9.416C34.7595 8.261 35.5955 7.612 37.1685 7.612H38.5875V7.271C38.5875 6.644 38.1145 6.259 37.3445 6.259C36.6515 6.259 36.1785 6.589 36.0905 7.084H34.9245C35.0455 5.951 35.9805 5.302 37.3995 5.302C38.8955 5.302 39.7645 6.017 39.7645 7.348V9.57C39.7645 9.856 39.9075 9.966 40.1385 9.966ZM38.5875 8.69V8.492H37.1135C36.3875 8.492 35.9695 8.767 35.9695 9.339C35.9695 9.812 36.3655 10.142 37.0145 10.142C38.0045 10.142 38.5765 9.559 38.5875 8.69ZM41.0166 11V3.3H42.2046V11H41.0166ZM47.3511 8.976H48.5611C48.3411 10.263 47.4061 11.066 45.9651 11.066C44.2711 11.066 43.1601 9.911 43.1601 8.173C43.1601 6.446 44.2821 5.302 45.9981 5.302C47.4171 5.302 48.3411 6.105 48.5611 7.37H47.3401C47.1861 6.732 46.6801 6.314 45.9651 6.314C45.0081 6.314 44.3811 7.073 44.3811 8.173C44.3811 9.284 45.0081 10.054 45.9651 10.054C46.7021 10.054 47.2081 9.636 47.3511 8.976ZM53.3747 8.162V5.368H54.5627V11H53.5177L53.3857 10.285C53.0337 10.714 52.5167 11.066 51.6477 11.066C50.4487 11.066 49.4257 10.417 49.4257 8.47V5.368H50.6137V8.349C50.6137 9.449 51.0537 10.032 51.9227 10.032C52.8247 10.032 53.3747 9.328 53.3747 8.162ZM55.7334 11V3.3H56.9214V11H55.7334ZM63.2449 9.966H63.4759V11H62.8489C62.0789 11 61.8149 10.659 61.8149 10.098C61.4409 10.67 60.8689 11.066 59.9559 11.066C58.7239 11.066 57.8659 10.461 57.8659 9.416C57.8659 8.261 58.7019 7.612 60.2749 7.612H61.6939V7.271C61.6939 6.644 61.2209 6.259 60.4509 6.259C59.7579 6.259 59.2849 6.589 59.1969 7.084H58.0309C58.1519 5.951 59.0869 5.302 60.5059 5.302C62.0019 5.302 62.8709 6.017 62.8709 7.348V9.57C62.8709 9.856 63.0139 9.966 63.2449 9.966ZM61.6939 8.69V8.492H60.2199C59.4939 8.492 59.0759 8.767 59.0759 9.339C59.0759 9.812 59.4719 10.142 60.1209 10.142C61.1109 10.142 61.6829 9.559 61.6939 8.69ZM64.486 9.471V6.413H63.507V5.368H64.486V3.795H65.685V5.368H67.038V6.413H65.685V9.35C65.685 9.79 65.839 9.955 66.268 9.955H67.17V11H66.026C64.948 11 64.486 10.494 64.486 9.471ZM70.3514 11.066C68.6354 11.066 67.4804 9.911 67.4804 8.184C67.4804 6.468 68.6354 5.302 70.3514 5.302C72.0674 5.302 73.2224 6.468 73.2224 8.184C73.2224 9.911 72.0674 11.066 70.3514 11.066ZM70.3514 10.054C71.3524 10.054 72.0124 9.273 72.0124 8.184C72.0124 7.095 71.3524 6.314 70.3514 6.314C69.3504 6.314 68.7014 7.095 68.7014 8.184C68.7014 9.273 69.3504 10.054 70.3514 10.054ZM77.0267 5.368H77.2907V6.479H76.7627C75.7067 6.479 75.3657 7.304 75.3657 8.173V11H74.1777V5.368H75.2337L75.3657 6.215C75.6517 5.742 76.1027 5.368 77.0267 5.368Z" fill="#5F7775"/>
             </svg>
-            reset&nbsp;calculator
           </button>
           
           <div className="page-header">
