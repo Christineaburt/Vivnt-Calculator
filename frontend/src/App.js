@@ -498,6 +498,7 @@ const VivintCalculator = () => {
           <div className="input-group">
             <label>Zip code <span className="optional">Optional</span></label>
             <input
+              key="zipCode-input"
               type="text"
               value={formData.zipCode}
               onChange={(e) => handleInputChange('zipCode', e.target.value)}
