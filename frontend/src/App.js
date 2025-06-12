@@ -244,28 +244,65 @@ const VivintCalculator = () => {
   const nextStep = () => {
     // Validate current step before proceeding
     let isValid = true;
+    const newErrors = {};
     
     if (currentStep === 1) {
       // Validate step 2 fields
       if (formData.monthlyBill) {
-        isValid = validateField('monthlyBill', formData.monthlyBill) && isValid;
+        if (isNaN(formData.monthlyBill) || parseFloat(formData.monthlyBill) <= 0) {
+          newErrors.monthlyBill = 'Please enter a valid dollar amount';
+          isValid = false;
+        } else if (parseFloat(formData.monthlyBill) > 500) {
+          newErrors.monthlyBill = 'Monthly bill cannot exceed $500';
+          isValid = false;
+        }
       }
+      
       if (formData.zipCode) {
-        isValid = validateField('zipCode', formData.zipCode) && isValid;
+        if (!/^\d{5}$/.test(formData.zipCode)) {
+          newErrors.zipCode = 'Please enter a valid 5-digit zip code';
+          isValid = false;
+        }
       }
+      
       if (formData.electricityRate) {
-        isValid = validateField('electricityRate', formData.electricityRate) && isValid;
+        if (isNaN(formData.electricityRate) || parseFloat(formData.electricityRate) <= 0) {
+          newErrors.electricityRate = 'Please enter a valid rate';
+          isValid = false;
+        }
       }
     }
     
     if (currentStep === 4) {
       // Validate contact form
-      isValid = validateField('name', contactData.name) && isValid;
-      isValid = validateField('email', contactData.email) && isValid;
-      isValid = validateField('phone', contactData.phone) && isValid;
+      if (!contactData.name.trim()) {
+        newErrors.name = 'Name is required';
+        isValid = false;
+      }
+      
+      if (!contactData.email.trim()) {
+        newErrors.email = 'Email is required';
+        isValid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+      
+      if (!contactData.phone.trim()) {
+        newErrors.phone = 'Phone number is required';
+        isValid = false;
+      } else if (!/^[\d\s\-\(\)]{10,}$/.test(contactData.phone.replace(/\D/g, ''))) {
+        newErrors.phone = 'Please enter a valid phone number';
+        isValid = false;
+      }
     }
     
-    if (isValid && currentStep < 4) {
+    if (!isValid) {
+      setErrors(newErrors);
+      return;
+    }
+    
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
