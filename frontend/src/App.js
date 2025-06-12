@@ -555,6 +555,7 @@ const VivintCalculator = () => {
               type="text"
               value={formData.zipCode}
               onChange={(e) => handleInputChange('zipCode', e.target.value)}
+              onBlur={(e) => validateField('zipCode', e.target.value)}
               placeholder="e.g., 84043"
               className={`form-input ${errors.zipCode ? 'error' : ''}`}
               autoComplete="off"
