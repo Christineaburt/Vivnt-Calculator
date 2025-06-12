@@ -227,6 +227,10 @@ function App() {
     setErrors({});
   };
 
+  const canProceedFromHomeProfile = () => {
+    return true; // No validation needed for home profile step
+  };
+
   const canProceedFromProducts = () => {
     return smartProducts.some(product => product.checked);
   };
