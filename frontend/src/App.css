@@ -210,6 +210,13 @@ body {
   padding: 40px 29px 60px;
 }
 
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .form-row {
   margin-bottom: 40px;
   position: relative;
