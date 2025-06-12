@@ -24,13 +24,6 @@ const VivintCalculator = () => {
     bestTime: 'Morning'
   });
 
-  // Results state
-  const [results, setResults] = useState({
-    annualSavings: 0,
-    monthlySavings: 0,
-    percentageSaved: 0
-  });
-
   // Validation errors
   const [errors, setErrors] = useState({});
 
