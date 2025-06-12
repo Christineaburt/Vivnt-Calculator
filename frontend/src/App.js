@@ -31,15 +31,15 @@ function App() {
   const [errors, setErrors] = useState({});
 
   const smartProducts = [
-    { id: 'thermostat', name: 'Smart Thermostat', annualSavings: 180, checked: thermostat, setter: setThermostat, image: 'https://images.unsplash.com/photo-1636569608385-58efc32690ea' },
-    { id: 'lighting', name: 'Smart Lighting', annualSavings: 60, checked: lighting, setter: setLighting, image: 'https://images.pexels.com/photos/6913319/pexels-photo-6913319.jpeg' },
-    { id: 'plugs', name: 'Smart Plugs', annualSavings: 40, checked: plugs, setter: setPlugs, image: 'https://images.unsplash.com/photo-1603539495824-bf9158834f09' },
-    { id: 'doorlock', name: 'Smart Door Lock', annualSavings: 10, checked: doorlock, setter: setDoorlock, image: 'https://images.pexels.com/photos/6689289/pexels-photo-6689289.jpeg' },
-    { id: 'garage', name: 'Smart Garage Door Controller', annualSavings: 20, checked: garage, setter: setGarage, image: 'https://images.unsplash.com/photo-1576765915042-d4746f8b7727' },
-    { id: 'sensors', name: 'Security Sensors', annualSavings: 25, checked: sensors, setter: setSensors, image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13' },
-    { id: 'cameras', name: 'Smart Cameras', annualSavings: 15, checked: cameras, setter: setCameras, image: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f' },
-    { id: 'hub', name: 'Vivint Smart Hub', annualSavings: 5, checked: hub, setter: setHub, image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b' }
-  ];
+    { id: 'thermostat', name: 'Smart Thermostat', annualSavings: 180, checked: thermostat, setter: setThermostat, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/thermostat.jpeg' },
+    { id: 'lighting', name: 'Smart Lighting', annualSavings: 60, checked: lighting, setter: setLighting, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/lighting.jpeg' },
+    { id: 'plugs', name: 'Smart Plugs', annualSavings: 40, checked: plugs, setter: setPlugs, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/plugs.jpeg' },
+    { id: 'doorlock', name: 'Smart Door Lock', annualSavings: 10, checked: doorlock, setter: setDoorlock, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/doorlock.jpeg' },
+    { id: 'garage', name: 'Smart Garage Door Controller', annualSavings: 20, checked: garage, setter: setGarage, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/garage.jpeg' },
+    { id: 'sensors', name: 'Security Sensors', annualSavings: 25, checked: sensors, setter: setSensors, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/sensors.jpeg' },
+    { id: 'cameras', name: 'Smart Cameras', annualSavings: 15, checked: cameras, setter: setCameras, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/cameras.jpeg' },
+    { id: 'hub', name: 'Vivint Smart Hub', annualSavings: 5, checked: hub, setter: setHub, image: 'https://raw.githubusercontent.com/chrisitneaburt/vivint-calculator/main/public/images/hub.jpeg' }
+];
 
   // Validation functions
   const validateZipCode = (value) => {
