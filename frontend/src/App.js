@@ -496,20 +496,26 @@ function App() {
               </div>
             </div>
             {selectedProductsList.length > 0 && (
-              <div className="savings-breakdown">
-                <h3 className="breakdown-title">Savings breakdown</h3>
-                {selectedProductsList.map((product) => (
-                  <div key={product.id} className="breakdown-item">
-                    <div className="breakdown-info">
-                      <span className="breakdown-name">{product.name}</span>
-                      <span className="breakdown-amount">${Math.round(product.annualSavings / 12)/month}</span>
-                    </div>
-                    <div className="breakdown-bar">
-                      <div className="breakdown-fill" style={{width: `${(product.annualSavings / 200) * 100}%`}}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+<div className="savings-breakdown">
+  <h3 className="breakdown-title">Savings breakdown</h3>
+  {selectedProductsList.map((product) => (
+    <div key={product.id} className="breakdown-item">
+      <div className="breakdown-info">
+        <span className="breakdown-name">{product.name}</span>
+        <span className="breakdown-amount">
+          {`$${Math.round(product.annualSavings / 12)}/month`}
+        </span>
+      </div>
+      <div className="breakdown-bar">
+        <div
+          className="breakdown-fill"
+          style={{ width: `${(product.annualSavings / 200) * 100}%` }}
+        ></div>
+      </div>
+    </div>
+  ))}
+</div>
+
             )}
             <button onClick={() => setCurrentStep(4)} className="quote-btn">
               <span>Get a quote</span>
