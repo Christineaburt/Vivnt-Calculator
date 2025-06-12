@@ -493,10 +493,8 @@ const VivintCalculator = () => {
               type="text"
               value={formData.electricityRate}
               onChange={(e) => handleInputChange('electricityRate', e.target.value)}
-              onBlur={(e) => validateField('electricityRate', e.target.value)}
               placeholder="e.g., $0.19 per kWh"
               className={`form-input ${errors.electricityRate ? 'error' : ''}`}
-              autoComplete="off"
             />
             {errors.electricityRate && <span className="error-text">{errors.electricityRate}</span>}
             <p className="input-help">National average: $0.19 per kWh (as of March 2025)</p>
