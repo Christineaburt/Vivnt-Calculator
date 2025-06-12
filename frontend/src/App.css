@@ -1,7 +1,7 @@
 /* Import VivintSans custom fonts */
 @font-face {
   font-family: 'VivintSans';
-  src: url('/fonts/VivintSans-Light.ttf') format('truetype');
+  src: url('%PUBLIC_URL%/fonts/VivintSans-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: 'VivintSans';
-  src: url('/fonts/VivintSans-Medium.otf') format('opentype');
+  src: url('%PUBLIC_URL%/fonts/VivintSans-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: 'VivintSans';
-  src: url('/fonts/VivintSans-Bold.ttf') format('truetype');
+  src: url('%PUBLIC_URL%/fonts/VivintSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
