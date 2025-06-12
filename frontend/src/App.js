@@ -477,7 +477,7 @@ function App() {
               <h2>Results</h2>
             </div>
             <div className="results-card">
-              <h3 className="results-title">Here's how much you could save with Vivint:</h3>
+              <h3 className="results-title">Here's how much you<br/>could save with Vivint</h3>
               <div className="savings-display">
                 <span className="savings-amount">${currentResults.annualSavings}</span>
                 <span className="savings-period">annual savings</span>
