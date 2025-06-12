@@ -584,8 +584,9 @@ const VivintCalculator = () => {
 
   // Results Page (Step 3)
   const ResultsPage = () => {
+    const currentResults = calculateResults();
     const monthlyBill = parseFloat(formData.monthlyBill) || 120;
-    const newBill = Math.max(0, monthlyBill - results.monthlySavings);
+    const newBill = Math.max(0, monthlyBill - currentResults.monthlySavings);
     const selectedProductsList = Object.keys(selectedProducts)
       .filter(productId => selectedProducts[productId])
       .map(productId => smartProducts.find(p => p.id === productId));
