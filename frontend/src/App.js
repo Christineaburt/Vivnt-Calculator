@@ -702,10 +702,8 @@ const VivintCalculator = () => {
               type="email"
               value={contactData.email}
               onChange={(e) => handleContactChange('email', e.target.value)}
-              onBlur={(e) => validateField('email', e.target.value)}
               placeholder="Johns@email.com"
               className={`form-input ${errors.email ? 'error' : ''}`}
-              autoComplete="off"
             />
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
