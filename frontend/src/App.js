@@ -525,6 +525,7 @@ const VivintCalculator = () => {
               type="text"
               value={formData.monthlyBill}
               onChange={(e) => handleInputChange('monthlyBill', e.target.value)}
+              onBlur={(e) => validateField('monthlyBill', e.target.value)}
               placeholder="e.g., $120"
               className={`form-input ${errors.monthlyBill ? 'error' : ''}`}
               autoComplete="off"
