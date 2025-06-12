@@ -1,12 +1,28 @@
-import React from 'react';
-import TestApp from './TestApp';
+import React, { useState } from 'react';
+import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <TestApp />
-    </div>
-  );
-}
+const VivintCalculator = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    zipCode: '',
+    homeSize: '1000-2000',
+    peopleCount: 5,
+    monthlyBill: '',
+    electricityRate: ''
+  });
 
-export default App;
+  // Smart products state
+  const [selectedProducts, setSelectedProducts] = useState({});
+
+  // Contact form state
+  const [contactData, setContactData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    bestTime: 'Morning'
+  });
+
+  // Validation errors
+  const [errors, setErrors] = useState({});
