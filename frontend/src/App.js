@@ -339,7 +339,7 @@ const VivintCalculator = () => {
         data: {
           formData,
           selectedProducts,
-          results,
+          results: calculateResults(),
           contactData
         }
       }, '*');
