@@ -198,8 +198,9 @@ function App() {
   };
 
   const getHomeSizePercentage = (value) => {
-    const percentages = { '<1000': 0, '1000-2000': 33.33, '2000-3000': 66.66, '>3000': 100 };
-    return percentages[value] || 33.33;
+    const values = { '<1000': 0, '1000-2000': 1, '2000-3000': 2, '>3000': 3 };
+    const numValue = values[value] || 1;
+    return (numValue / 3) * 100; // 0%, 33.33%, 66.66%, 100%
   };
 
   const resetCalculator = () => {
