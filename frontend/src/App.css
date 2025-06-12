@@ -679,7 +679,7 @@ input:checked + .slider:before {
 }
 
 /* Button Styles */
-.get-started-btn, .next-btn, .send-btn {
+.get-started-btn, .next-btn, .send-btn, .quote-btn {
   background: #E2B95D;
   color: #000;
   border: none;
@@ -695,12 +695,12 @@ input:checked + .slider:before {
   margin: 0 auto;
 }
 
-.get-started-btn:hover, .next-btn:hover, .send-btn:hover {
+.get-started-btn:hover, .next-btn:hover, .send-btn:hover, .quote-btn:hover {
   background: #D4A652;
   transform: translateY(-2px);
 }
 
-.get-started-btn.disabled, .next-btn.disabled, .send-btn.disabled {
+.get-started-btn.disabled, .next-btn.disabled, .send-btn.disabled, .quote-btn.disabled {
   background: #ccc;
   color: #999;
   cursor: not-allowed;
