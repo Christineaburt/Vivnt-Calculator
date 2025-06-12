@@ -348,12 +348,32 @@ const VivintCalculator = () => {
 
   const handleContactSubmit = () => {
     // Validate required fields
+    const newErrors = {};
     let isValid = true;
-    isValid = validateField('name', contactData.name) && isValid;
-    isValid = validateField('email', contactData.email) && isValid;
-    isValid = validateField('phone', contactData.phone) && isValid;
+    
+    if (!contactData.name.trim()) {
+      newErrors.name = 'Name is required';
+      isValid = false;
+    }
+    
+    if (!contactData.email.trim()) {
+      newErrors.email = 'Email is required';
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+      isValid = false;
+    }
+    
+    if (!contactData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+      isValid = false;
+    } else if (!/^[\d\s\-\(\)]{10,}$/.test(contactData.phone.replace(/\D/g, ''))) {
+      newErrors.phone = 'Please enter a valid phone number';
+      isValid = false;
+    }
     
     if (!isValid) {
+      setErrors(newErrors);
       return;
     }
     
