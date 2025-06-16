@@ -515,7 +515,7 @@ function App() {
       <div className="breakdown-info">
         <span className="breakdown-name">{product.name}</span>
         <span className="breakdown-amount">
-          {`$${Math.round(product.annualSavings / 12)}/month`}
+          {`$${(product.annualSavings / 12).toFixed(2)}/month`}
         </span>
       </div>
       <div className="breakdown-bar">
