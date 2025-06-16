@@ -515,7 +515,12 @@ function App() {
       <div className="breakdown-info">
         <span className="breakdown-name">{product.name}</span>
         <span className="breakdown-amount">
-          {`$${(product.annualSavings / 12).toFixed(2)}/month`}
+                    {(() => {
+            const monthlySavings = product.annualSavings / 12;
+            return monthlySavings < 1 
+              ? `$${monthlySavings.toFixed(2)}/month`
+              : `$${Math.round(monthlySavings)}/month`;
+          })()}
         </span>
       </div>
       <div className="breakdown-bar">
